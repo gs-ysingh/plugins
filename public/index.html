@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main page</title>
+    <link rel="stylesheet" type="text/css" href="../autosuggest.css">
+</head>
+<body>
+    <input class="city" placeholder="Enter the name of cities" type="text"/>
+    <input class="city" placeholder="Enter the name of cities" type="text"/>
+</body>
+    <script src="../autosuggest.js"></script>
+    <script>
+        yog.autosuggest({
+            element: document.getElementsByClassName('city'),
+            data: ['Kanpur', 'Lucknow', 'Delhi'],
+            minChar: 3,
+            maxItems: 20,
+            time: 3000,
+            ajaxRequest: null
+        });
+    </script>
+</html>
