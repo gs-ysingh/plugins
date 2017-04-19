@@ -86,20 +86,35 @@ var yog = (function () {
 
     init.prototype.filter = function (value) {
         return this.config.data.filter(function (item) {
-           return item.indexOf(value) != -1;
+           return item.toLowerCase().indexOf(value.toLowerCase()) != -1;
         });
     }
 
     init.prototype.bindEvents = function () {
         this.elements.forEach(function (item) {
             var self = this;
+
+            //Filter the auto suggest
             item.addEventListener('keyup', function (evt) {
                 var filteredData = self.filter(evt.target.value);
                 var ele = self.getTemplate(filteredData);
                 this.parentElement.getElementsByClassName('autosuggest')[0].remove();
                 this.parentNode.insertBefore(ele, this.nextSibling);
+                this.parentElement.getElementsByClassName('autosuggest')[0].style.display = 'block';
             });
+
+            //Selection from result
+            var parentNode = item.parentNode;
+            parentNode.addEventListener('click', function (evt) {
+                if(evt.target.nodeName == 'LI') {
+                    item.value = evt.target.textContent;
+                }
+            });
+
         }, this);
+
+
+
     }
 
     function init(options) {
