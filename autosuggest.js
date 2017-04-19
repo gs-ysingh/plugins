@@ -61,23 +61,45 @@ var yog = (function () {
 
         return true;
     }
+
+    init.prototype.getTemplate = function (data) {
+        var template = '';
+        data.forEach(function (item) {
+            template +=  '<li>' +  item + '</li>';
+        });
+        var ele = document.createElement('div');
+        var ulEle = document.createElement('ul');
+        ulEle.innerHTML = template;
+        ele.appendChild(ulEle);
+        ele.className = "autosuggest";
+        return ele;
+    }
     
     init.prototype.render = function () {
-        var elements = [].slice.call(getElement(this.config.element));
-
         if(this.config.data.length > 0) {
-            var template = '';
-            this.config.data.forEach(function (item) {
-                template +=  '<li>' +  item + '</li>';
-            });
-
-            var ele = document.createElement('ul');
-            ele.innerHTML = template;
-
-            elements.forEach(function (item) {
-               item.parentNode.insertBefore(ele, item);
-            });
+            this.elements.forEach(function (item, index) {
+                var ele = this.getTemplate(this.config.data);
+                item.parentNode.insertBefore(ele, item.nextSibling);
+            }, this);
         }
+    }
+
+    init.prototype.filter = function (value) {
+        return this.config.data.filter(function (item) {
+           return item.indexOf(value) != -1;
+        });
+    }
+
+    init.prototype.bindEvents = function () {
+        this.elements.forEach(function (item) {
+            var self = this;
+            item.addEventListener('keyup', function (evt) {
+                var filteredData = self.filter(evt.target.value);
+                var ele = self.getTemplate(filteredData);
+                this.parentElement.getElementsByClassName('autosuggest')[0].remove();
+                this.parentNode.insertBefore(ele, this.nextSibling);
+            });
+        }, this);
     }
 
     function init(options) {
@@ -87,6 +109,7 @@ var yog = (function () {
             maxItems: 50,
             time: 500,
         };
+        this.elements = [].slice.call(getElement(this.config.element));
         
         this.render();
         this.bindEvents();
