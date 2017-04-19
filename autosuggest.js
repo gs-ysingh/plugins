@@ -93,7 +93,6 @@ var yog = (function () {
     init.prototype.bindEvents = function () {
         this.elements.forEach(function (item) {
             var self = this;
-
             //Filter the auto suggest
             item.addEventListener('keyup', function (evt) {
                 var filteredData = self.filter(evt.target.value);
@@ -113,8 +112,13 @@ var yog = (function () {
 
         }, this);
 
-
-
+        //hide the element
+        var that = this;
+        window.addEventListener('click', function () {
+            that.elements.forEach(function (item) {
+                item.parentElement.getElementsByClassName('autosuggest')[0].style.display = 'none';
+            });
+        });
     }
 
     function init(options) {
