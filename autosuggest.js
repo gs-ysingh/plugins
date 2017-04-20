@@ -76,16 +76,16 @@ var yog = (function () {
     }
     
     init.prototype.render = function () {
-        if(this.config.data.length > 0) {
+        if(this.model.data.length > 0) {
             this.elements.forEach(function (item, index) {
-                var ele = this.getTemplate(this.config.data);
+                var ele = this.getTemplate(this.model.data);
                 item.parentNode.insertBefore(ele, item.nextSibling);
             }, this);
         }
     }
 
     init.prototype.filter = function (value) {
-        return this.config.data.filter(function (item) {
+        return this.model.data.filter(function (item) {
            return item.toLowerCase().indexOf(value.toLowerCase()) != -1;
         });
     }
@@ -122,13 +122,13 @@ var yog = (function () {
     }
 
     function init(options) {
-        this.config = options;
+        this.model = options;
         this.defaultConfig = {
             minChar: 0,
             maxItems: 50,
             time: 500,
         };
-        this.elements = [].slice.call(getElement(this.config.element));
+        this.elements = [].slice.call(getElement(this.model.element));
         
         this.render();
         this.bindEvents();
