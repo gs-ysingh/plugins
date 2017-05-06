@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .red, .green, .black {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            position: absolute;
+        }
+        .red {
+            background-color: red;
+            left: 50%;
+            top: 50%;
+            z-index: 1;
+        }
+        .green {
+            background-color: green;
+            left: 50%;
+            top: 50%;
+            margin-left: -100px;
+            margin-top: -100px;
+            z-index: 1;
+        }
+        .black {
+            background-color: black;
+            left: 50%;
+            top: 50%;
+            margin-left: -50px;
+            margin-top: -50px;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="green"></div>
+    <div class="black"></div>
+    <div class="red"></div>
+
+</body>
+    <script>
+        var ele = [].slice.apply(document.getElementsByTagName('div'));
+        ele.forEach(function (item) {
+            item.addEventListener('click', function (e) {
+                var classes = [].slice.apply(e.target.classList);
+                if(classes.indexOf('green') != -1 || classes.indexOf('red') != -1) {
+                    document.getElementsByClassName('green')[0].style.zIndex = 1;
+                    document.getElementsByClassName('black')[0].style.zIndex = -1;
+                    document.getElementsByClassName('red')[0].style.zIndex = 1;
+                }
+                else if(classes.indexOf('black') != -1) {
+                    document.getElementsByClassName('green')[0].style.zIndex = -1;
+                    document.getElementsByClassName('black')[0].style.zIndex = 1;
+                    document.getElementsByClassName('red')[0].style.zIndex = -1;
+                }
+            });
+        })
+    </script>
+</html>
